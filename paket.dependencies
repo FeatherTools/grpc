@@ -1,0 +1,35 @@
+framework: net10.0
+
+source https://api.nuget.org/v3/index.json
+nuget FSharp.Core ~> 10.0
+nuget FSharp.Data ~> 6.0
+nuget FSharp.Control.AsyncSeq ~> 4.0
+nuget Alma.Authorization ~> 10.3
+nuget Alma.ServiceIdentification ~> 11.0
+nuget Alma.WebApplication ~> 14.0
+
+# gRPC
+nuget Grpc.Net.Client ~> 2.70
+
+nuget Feather.Contracts ~> 1.0
+nuget Feather.Cryptography ~> 2.0
+nuget Feather.ErrorHandling ~> 2.0
+
+// [ TESTS GROUP ]
+group Tests
+    source https://api.nuget.org/v3/index.json
+    nuget Expecto
+    nuget YoloDev.Expecto.TestSdk
+
+// [ FAKE GROUP ]
+group Build
+    storage none
+    source https://api.nuget.org/v3/index.json
+    nuget Fake.DotNet.Cli
+    nuget Fake.IO.FileSystem
+    nuget Fake.IO.Zip
+    nuget Fake.Core.Target
+    nuget Fake.Core.UserInput
+    nuget Fake.DotNet.AssemblyInfoFile
+    nuget Fake.Core.ReleaseNotes
+    nuget Fake.Tools.Git

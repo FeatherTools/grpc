@@ -1,0 +1,10 @@
+FSharp.Core
+FSharp.Data
+FSharp.Control.AsyncSeq
+Grpc.Net.Client
+Alma.Authorization
+Alma.ServiceIdentification
+Alma.WebApplication
+Feather.Contracts
+Feather.Cryptography
+Feather.ErrorHandling
