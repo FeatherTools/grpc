@@ -66,7 +66,7 @@ let timestampTests =
             Expect.equal contract.UnixTimestamp 1_700_000_000_000L "stores milliseconds"
 
         testCase "ofContract - restores from milliseconds" <| fun _ ->
-            let contract = Feather.Contracts.Timestamp(UnixTimestamp = 1_700_000_000_000L)
+            let contract = Feather.Contracts.Core.V1.Timestamp(UnixTimestamp = 1_700_000_000_000L)
             let result = Timestamp.ofContract contract
             let expected = DateTimeOffset.FromUnixTimeMilliseconds 1_700_000_000_000L
             Expect.equal result (Ok (Timestamp expected)) "restores DateTimeOffset"
@@ -138,11 +138,11 @@ let correlationIdTests =
             Expect.equal result (Ok id) "round-trip preserves CorrelationId"
 
         testCase "ofContract - invalid guid" <| fun _ ->
-            let contract = Feather.Contracts.CorrelationId(Id = "not-a-guid")
+            let contract = Feather.Contracts.Core.V1.CorrelationId(Id = "not-a-guid")
             Expect.isError (CorrelationId.ofContract contract) "should reject invalid guid"
 
         testCase "ofContract - empty string" <| fun _ ->
-            let contract = Feather.Contracts.CorrelationId(Id = "")
+            let contract = Feather.Contracts.Core.V1.CorrelationId(Id = "")
             Expect.isError (CorrelationId.ofContract contract) "should reject empty string"
     ]
 
@@ -166,10 +166,10 @@ let spotTests =
             Expect.equal contract.Bucket "staging" "bucket matches"
 
         testCase "ofContract - invalid zone" <| fun _ ->
-            let contract = Feather.Contracts.Spot(Zone = "", Bucket = "prod")
+            let contract = Feather.Contracts.Core.V1.Spot(Zone = "", Bucket = "prod")
             Expect.isError (Spot.ofContract contract) "should reject empty zone"
 
         testCase "ofContract - invalid bucket" <| fun _ ->
-            let contract = Feather.Contracts.Spot(Zone = "eu", Bucket = "")
+            let contract = Feather.Contracts.Core.V1.Spot(Zone = "eu", Bucket = "")
             Expect.isError (Spot.ofContract contract) "should reject empty bucket"
     ]

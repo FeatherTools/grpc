@@ -51,7 +51,7 @@ script restore. Do not hand-edit lock files.
   `[<RequireQualifiedAccess>]` modules, `AsyncSeq` for streaming. Avoid exceptions for
   control flow — convert to `GrpcError` / `ContractError` at boundaries.
 - Keep the contract boundary explicit: `ofContract` / `asContract` pairs convert between
-  `Feather.Contracts.*` proto types and domain types.
+  `Feather.Contracts.Core.V1.*` proto types and domain types.
 - Lint config lives in `fsharplint.json`.
 
 ## Release

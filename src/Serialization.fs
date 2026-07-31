@@ -26,7 +26,7 @@ module SerializedForChunking =
 
     /// Extracts and validates raw bytes from a single proto chunk.
     /// Returns an error if the chunk is null or empty.
-    let ofContract (contract: Feather.Contracts.SerializedForChunking): Result<byte[], ContractError> =
+    let ofContract (contract: Feather.Contracts.Core.V1.SerializedForChunking): Result<byte[], ContractError> =
         if isNull contract then
             Error (ContractError.ofError "SerializedForChunking: contract is null")
         else
@@ -34,16 +34,16 @@ module SerializedForChunking =
 
     /// Extracts raw bytes from a proto chunk without validation.
     /// Use only where the chunk is known to be non-empty (e.g. just produced by asContract).
-    let bytesOf (contract: Feather.Contracts.SerializedForChunking): byte[] =
+    let bytesOf (contract: Feather.Contracts.Core.V1.SerializedForChunking): byte[] =
         contract.Content.ToByteArray()
 
     /// Wraps raw bytes into a single proto chunk.
-    let ofBytes (bytes: byte[]) : Feather.Contracts.SerializedForChunking =
-        Feather.Contracts.SerializedForChunking(
+    let ofBytes (bytes: byte[]) : Feather.Contracts.Core.V1.SerializedForChunking =
+        Feather.Contracts.Core.V1.SerializedForChunking(
             Content = Google.Protobuf.ByteString.CopyFrom bytes
         )
 
-    let asContract (SerializedForChunking bytes) : Feather.Contracts.SerializedForChunking =
+    let asContract (SerializedForChunking bytes) : Feather.Contracts.Core.V1.SerializedForChunking =
         ofBytes bytes
 
     [<RequireQualifiedAccess>]
@@ -75,7 +75,7 @@ module SerializedForChunking =
             |> Array.toList
             |> List.map ofBytes
 
-        let concat (chunks: Feather.Contracts.SerializedForChunking list): Result<byte[], ContractError> =
+        let concat (chunks: Feather.Contracts.Core.V1.SerializedForChunking list): Result<byte[], ContractError> =
             chunks
             |> List.map ofContract
             |> Result.sequence
@@ -90,7 +90,7 @@ module SerializedForChunking =
         ///   dto
         ///   |> SerializedForChunking.toChunks (MyType.toDto >> Serialize.toJson)
         ///   |> Grpc.writeAll ctx writer
-        let toChunks (serialize: SerializeDto<'Dto>) (dto: SerializedForChunking<'Dto>): Feather.Contracts.SerializedForChunking list =
+        let toChunks (serialize: SerializeDto<'Dto>) (dto: SerializedForChunking<'Dto>): Feather.Contracts.Core.V1.SerializedForChunking list =
             dto
             |> Serialize.toBytes serialize
             |> Chunk.bytes
@@ -101,22 +101,22 @@ module SerializedForChunking =
         ///   receivedChunks
         ///   |> List.map SerializedForChunking.ofContract
         ///   |> SerializedForChunking.fromChunks MyType.parse
-        let fromChunks (parse: ParseDto<'Dto>) (chunks: Feather.Contracts.SerializedForChunking list): Result<SerializedForChunking<'Dto>, ContractError> =
+        let fromChunks (parse: ParseDto<'Dto>) (chunks: Feather.Contracts.Core.V1.SerializedForChunking list): Result<SerializedForChunking<'Dto>, ContractError> =
             chunks
             |> Chunk.concat
             |> Result.bind (Parse.fromBytes parse)
 
     [<RequireQualifiedAccess>]
     module Dto =
-        type private ToStream<'Dto> = SerializeDto<'Dto> -> SerializedForChunking<'Dto> -> AsyncSeq<Feather.Contracts.SerializedForChunking>
-        type private FromStream<'Dto> = ParseDto<'Dto> -> AsyncSeq<Feather.Contracts.SerializedForChunking> -> AsyncResult<SerializedForChunking<'Dto>, ContractError>
+        type private ToStream<'Dto> = SerializeDto<'Dto> -> SerializedForChunking<'Dto> -> AsyncSeq<Feather.Contracts.Core.V1.SerializedForChunking>
+        type private FromStream<'Dto> = ParseDto<'Dto> -> AsyncSeq<Feather.Contracts.Core.V1.SerializedForChunking> -> AsyncResult<SerializedForChunking<'Dto>, ContractError>
 
         /// Serializes a dto and produces an AsyncSeq of proto chunks ready to be streamed via gRPC.
         /// Usage:
         ///   dto
         ///   |> SerializedForChunking.toStream (MyType.toDto >> Serialize.toJson)
         ///   |> Grpc.writeAll ctx writer
-        let toStream (serialize: SerializeDto<'Dto>) dto: AsyncSeq<Feather.Contracts.SerializedForChunking> =
+        let toStream (serialize: SerializeDto<'Dto>) dto: AsyncSeq<Feather.Contracts.Core.V1.SerializedForChunking> =
             dto
             |> Serialize.toBytes serialize
             |> Chunk.bytes
@@ -172,8 +172,8 @@ module SerializedForChunking =
 
     [<RequireQualifiedAccess>]
     module Parts =
-        type private ToStream<'Parts> = SerializedForChunking<'Parts> -> AsyncSeq<Feather.Contracts.SerializedForChunking>
-        type private FromStream<'Parts> = AsyncSeq<Feather.Contracts.SerializedForChunking> -> AsyncSeq<SerializedForChunking<'Parts>>
+        type private ToStream<'Parts> = SerializedForChunking<'Parts> -> AsyncSeq<Feather.Contracts.Core.V1.SerializedForChunking>
+        type private FromStream<'Parts> = AsyncSeq<Feather.Contracts.Core.V1.SerializedForChunking> -> AsyncSeq<SerializedForChunking<'Parts>>
 
         /// Splits raw bytes into proto chunks and streams them.
         /// Usage:
