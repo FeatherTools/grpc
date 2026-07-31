@@ -13,8 +13,8 @@ paket add Feather.Grpc
 ```
 
 The conversions in this library map to the shared core proto types from
-[grpc.contract.core](https://github.com/FeatherTools/grpc.contract.core)
-(`Timestamp`, `CorrelationId`, `Spot`, `Instance`, `Box`, `Error`,
+[Feather.Contracts](https://buf.build/feathertools/contracts) (`feather.contracts.core.v1`
+package — `Timestamp`, `CorrelationId`, `Spot`, `Instance`, `Box`, `Error`,
 `SerializedForChunking`, …). Reference these in your own `.proto` definitions so
 messages interoperate across services and languages.
 
@@ -54,7 +54,14 @@ Convert contract types at the boundary with `ofContract` / `asContract`.
 The example below is a `Calculator` service exposing a single `Divide` call.
 
 Proto definition — reuse the shared core types (`Spot`, `Error`) from
-[grpc.contract.core](https://github.com/FeatherTools/grpc.contract.core):
+[Feather.Contracts](https://buf.build/feathertools/contracts). Add the BSR module as a
+dependency in your `buf.yaml`:
+
+```yaml
+version: v2
+deps:
+  - buf.build/feathertools/contracts
+```
 
 ```proto
 syntax = "proto3";
@@ -62,7 +69,7 @@ syntax = "proto3";
 package calculator;
 option csharp_namespace = "Math";
 
-import "feather/core.proto";
+import "feather/contracts/core/v1/core.proto";
 
 message Input  { int32 value = 1; }
 message Output { int32 value = 1; }
@@ -74,8 +81,8 @@ message DivideRequest {
 
 message DivideResponse {
     oneof result {
-        Success            success = 1;
-        feather.core.Error error   = 2;
+        Success                         success = 1;
+        feather.contracts.core.v1.Error error   = 2;
     }
 
     message Success {

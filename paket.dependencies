@@ -11,7 +11,7 @@ nuget Alma.WebApplication ~> 14.0
 # gRPC
 nuget Grpc.Net.Client ~> 2.70
 
-nuget Feather.Contracts ~> 1.0
+nuget Feather.Contracts ~> 1.2
 nuget Feather.Cryptography ~> 2.0
 nuget Feather.ErrorHandling ~> 2.0
 

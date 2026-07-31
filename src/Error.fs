@@ -48,13 +48,13 @@ module GrpcError =
         Message = message
     }
 
-    let asContract (err: GrpcError): Feather.Contracts.Error =
-        Feather.Contracts.Error(
+    let asContract (err: GrpcError): Feather.Contracts.Core.V1.Error =
+        Feather.Contracts.Core.V1.Error(
             Name = err.Name,
             Message = (err.Message |> Option.defaultValue "")
         )
 
-    let ofContract (contract: Feather.Contracts.Error): GrpcError =
+    let ofContract (contract: Feather.Contracts.Core.V1.Error): GrpcError =
         {
             Name = try contract.Name with _ -> "Contracts.Error.Null"
             Message =
@@ -85,7 +85,7 @@ module GrpcError =
         match error with
         | :? exn as exn -> ofExn exn
         | :? ContractError as contractError -> ofContractError contractError
-        | :? Feather.Contracts.Error as contract -> ofContract contract
+        | :? Feather.Contracts.Core.V1.Error as contract -> ofContract contract
         | error ->
             {
                 Name = error.GetType() |> string

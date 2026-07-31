@@ -192,7 +192,7 @@ let serializedForChunkingLargeFileTests =
         testCaseAsync "AI simulated response" <| async {
             do! Async.Sleep (6000 * sleepMultiplier) // ensure timestamp differences are visible in logs
 
-            let grpcStream = System.Threading.Channels.Channel.CreateUnbounded<Feather.Contracts.SerializedForChunking>()
+            let grpcStream = System.Threading.Channels.Channel.CreateUnbounded<Feather.Contracts.Core.V1.SerializedForChunking>()
 
             // AI engine: produces 10 partial messages, each encoded to one proto chunk,
             // written into the channel at its own pace.
@@ -213,7 +213,7 @@ let serializedForChunkingLargeFileTests =
             }
 
             // gRPC stream as AsyncSeq — yields chunks as they are written by the producer.
-            let wireFromChannel : AsyncSeq<Feather.Contracts.SerializedForChunking> =
+            let wireFromChannel : AsyncSeq<Feather.Contracts.Core.V1.SerializedForChunking> =
                 asyncSeq {
                     let mutable running = true
                     while running do
