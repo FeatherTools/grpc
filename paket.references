@@ -3,6 +3,7 @@ FSharp.Data
 FSharp.Control.AsyncSeq
 Grpc.Net.Client
 Alma.Authorization
+Alma.Metrics
 Alma.ServiceIdentification
 Alma.WebApplication
 Feather.Contracts
