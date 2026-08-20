@@ -5,8 +5,9 @@ nuget FSharp.Core ~> 10.0
 nuget FSharp.Data ~> 6.0
 nuget FSharp.Control.AsyncSeq ~> 4.0
 nuget Alma.Authorization ~> 10.3
+nuget Alma.Metrics ~> 13.0
 nuget Alma.ServiceIdentification ~> 11.0
-nuget Alma.WebApplication ~> 14.0
+nuget Alma.WebApplication ~> 15.0
 
 # gRPC
 nuget Grpc.Net.Client ~> 2.70
